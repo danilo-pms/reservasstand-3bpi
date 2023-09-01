@@ -8,20 +8,20 @@ def cadastro(request):
         form = ReservaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("listar_reservas")
+            return redirect("listar")
     else:
         form = ReservaForm()
     context = {'form': form}
-    return render(request, 'reservas/cadastrar_reserva.html', context)
+    return render(request, 'reservas/cadastro.html', context)
 
 def listar(request):
     reservas = Reserva.objects.all()
-    return render(request, "reservas/listar_reservas.html", {"reservas": reservas})
+    return render(request, "reservas/listar.html", {"reservas": reservas})
 
-def excluir_reserva(request, id):
+def excluir(request, id):
     reserva = get_object_or_404(Reserva, id=id)
     reserva.delete()
-    return redirect("listar_reservas")
+    return redirect("listar")
 
 def atualizar(request, id):
     reserva = get_object_or_404(Reserva, id=id)
@@ -30,14 +30,15 @@ def atualizar(request, id):
         form = ReservaForm(request.POST, instance=reserva)
         if form.is_valid():
             form.save()
-            return redirect("listar_reservas")
+            return redirect("listar")
     else:
         form = ReservaForm(instance=reserva)
     
-    context = {'form': form, 'reserva': reserva}
-    return render(request, "reservas/cadastrar_reserva.html", context)
+    context = {'form': form, 
+               'reserva': reserva}
+    return render(request, "reservas/cadastro.html", context)
 
-def detalhes_reserva(request, id):
+def detalhes(request, id):
     reserva = get_object_or_404(Reserva, id=id)
     context = {'reserva': reserva}
-    return render(request, "reservas/detalhes_reserva.html", context)
+    return render(request, "reservas/detalhes.html", context)

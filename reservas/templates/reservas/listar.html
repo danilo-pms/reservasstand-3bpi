@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-8 offset-md-2">
+        <h2>Listagem de Reservas</h2>
+        <ul class="list-group">
+            {% for reserva in reservas %}
+            <li class="list-group-item">
+                <strong>{{ reserva.nome }}</strong> - {{ reserva.cnpj }}
+                <div class="mt-2">
+                    <a href="{% url 'detalhes' id=reserva.id %}" class="btn btn-info btn-sm mr-2">Detalhes</a>
+                    <a href="{% url 'excluir' id=reserva.id %}" class="btn btn-danger btn-sm mr-2">Excluir</a>
+                    <a href="{% url 'atualizar' id=reserva.id %}" class="btn btn-warning btn-sm">Atualizar</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
