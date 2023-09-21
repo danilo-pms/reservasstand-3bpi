@@ -15,8 +15,17 @@ def cadastro(request):
     return render(request, 'reservas/cadastro.html', context)
 
 def listar(request):
-    reservas = Reserva.objects.all()
-    return render(request, "reservas/listar.html", {"reservas": reservas})
+    # Obter todas as reservas ordenadas por data
+    reservas = Reserva.objects.all().order_by("data")
+    
+    # Verificar se o parâmetro de consulta 'nome' está presente na solicitação GET
+    if request.GET.get('nome'):
+        # Filtrar as reservas cujo nome contenha o valor fornecido em 'nome'
+        reservas = reservas.filter(nome__icontains=request.GET.get('nome'))
+    
+    context = {'reservas': reservas}
+    return render(request, "reservas/listar.html", context)
+
 
 def excluir(request, id):
     reserva = get_object_or_404(Reserva, id=id)
